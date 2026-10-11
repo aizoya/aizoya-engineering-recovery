@@ -6,7 +6,7 @@ Original event implementation begun October 11, 2026 after founder reported hack
 
 Implement `import_transactions(text)` in Python: convert fictional JSONL orders into
 `{"records": [{"id": str, "amount_cents": int}], "errors": [1-based line numbers], "duplicates": int}`.
-Ignore blank lines. Every nonblank line must contain a JSON object with a nonempty trimmed string `id` (max 80 characters) and `amount` as a string of nonnegative decimal dollars, up to two fractional digits, max 1,000,000.00. Trim amount whitespace. Reject exponents, NaN, Infinity, booleans, numeric amounts, signs, missing fields and malformed JSON. Keep the first valid occurrence of each normalized ID, in input order. Later valid repeats count as duplicates. Invalid rows remain errors even when their ID repeats. Return exact integer cents. Extra fields are ignored.
+Records are separated by physical LF characters (`\n`). Ignore blank lines. Every nonblank line must contain a JSON object with a nonempty trimmed string `id` (max 80 characters) and `amount` as a string of nonnegative decimal dollars, up to two fractional digits, max 1,000,000.00. Trim amount whitespace. Reject exponents, NaN, Infinity, booleans, numeric amounts, signs, missing fields and malformed JSON. Keep the first valid occurrence of each normalized ID, in input order. Later valid repeats count as duplicates. Invalid rows remain errors even when their ID repeats. Return exact integer cents. Extra fields are ignored.
 
 Independent verifier checks boundaries and 100 seeded generated rows, exact values,
 order, duplicate behavior and invalid-row reporting. Verification is a bounded local
@@ -73,17 +73,65 @@ to revise, and verify again. If it passes immediately, report that outcome; do n
 manufacture a failure. Record elapsed verifier time and check count. Tool calls
 inside Kiro/Codex are unknown unless instrumented independently.
 
-## Readiness gates
+## Observed recovery — October 11, 2026
 
-Atlas Sandbox access BLOCKED: signed-in hello account has only personal org;
-Invitations page shows no invitations (October 11, about 10:50 AM Pacific).
-Atlas round trip NOT RUN. Fresh-session Atlas recovery NOT RUN.
-Codex's first candidate was actually run: initial 9 checks passed, then an expanded
-JSONL edge-case check found a real Unicode line separator defect; 9/10 checks pass.
-The candidate remains unchanged for recovery. This is observed local evidence,
-not evidence of an Atlas-backed run. Accessible public demo NOT READY.
-Actual submission form fields VERIFIED in REVIEW_PACKET.md; no submission made.
-License requirement NOT VERIFIED; no license selection or repository publication
-has occurred. Sponsor offers/coverage need event-specific confirmation. No spend.
+This section records actual outcomes as they occurred. It replaces prior
+"NOT RUN" / "BLOCKED" claims in the readiness gates below.
+
+**Session-1 (first candidate):**
+Codex produced the original candidate, which was verified in session-1. The initial 9-check suite passed.
+An independent expanded check added a valid JSON string containing a Unicode line
+separator (U+2028). The `unicode_inside_json_string` check failed: the candidate
+used `text.splitlines()` which split on U+2028, breaking a single valid record into
+two lines. 9/10 checks passed. Session-1 ended and its process was closed.
+
+Original candidate SHA256:
+`71fd7fc2417b96d06718c2fc7d80a1b55213ad1be9c3ecab9da5d0fc1f154a03`
+
+**Session-2 (human-assisted Atlas recovery):**
+The operator connected to the organizer Atlas sandbox and ran `private_run.py resume`
+in a new Python process. The persisted failure evidence was read back from Atlas
+and supplied to Kiro as operator-provided context — this is human-assisted recovery,
+not an autonomous model API loop. Kiro inspected the failure, identified that
+`text.splitlines()` treats U+2028 as a line terminator while `text.split('\n')`
+does not, and replaced the call in `candidate.py`. The mission is `transaction-import`.
+
+Repaired candidate SHA256:
+`592b1b2854b360663fd708457d66a594ccfe3d808f28c22651f4b9913058f56a`
+
+Session-2 ran one harness verification call. The expanded verifier passed 10/10
+independent checks in 87 ms. Atlas readback reports VERIFIED at revision 6.
+All 16 unit tests passed on macOS; the Linux-only `RLIMIT_AS` address-space limit
+does not apply on macOS. The local read-only viewer was observed working at
+`http://127.0.0.1:8765`. Code fixes were committed as `6eb8669`.
+
+**What was and was not demonstrated:**
+- Atlas sandbox connection: confirmed (organizer sandbox, not personal cluster).
+- Persisted failure evidence read back across a process boundary: confirmed.
+- Repair informed by retrieved evidence: confirmed.
+- 10/10 independent checks and Atlas VERIFIED at revision 6: confirmed.
+- Autonomous model API loop with no human relay: NOT demonstrated.
+- Memory-disabled model comparison benchmark: NOT demonstrated.
+- Model tool-call counts: not instrumented; unknown.
+- Model conversation freshness (stateless vs. stateful): not independently verified.
+
+## Readiness gates (updated October 11, 2026)
+
+Atlas sandbox connection: CONFIRMED — organizer sandbox, October 11.
+Mission: `transaction-import`. Atlas revision 6, status VERIFIED.
+Fresh-session Atlas recovery (human-assisted): CONFIRMED.
+10/10 independent checks: CONFIRMED. Verification: 87 ms, one call.
+All 16 local unit tests: PASS (macOS; Linux RLIMIT_AS excluded by design).
+Code committed: `6eb8669`. Credential-pattern scan of Git history: zero matches
+(not a comprehensive security guarantee).
+Local viewer at http://127.0.0.1:8765: OBSERVED WORKING.
+
+Accessible public demo: NOT READY (local 127.0.0.1 is not a public URL).
+Public repository: NOT PUBLISHED.
+Video recording: NOT RECORDED.
+Final submission: NOT MADE.
+Modelence integration: NOT IMPLEMENTED.
+License requirement: NOT VERIFIED; no license selected.
+Sponsor credit discrepancy: UNRESOLVED.
 
 Founder: Franklyn Rosario, MBA-ITM, Founder & CEO of AIZOYA.

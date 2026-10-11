@@ -4,7 +4,7 @@ Founder and currently known solo team member: Franklyn Rosario, MBA-ITM.
 Track choice: Long Horizon Engineering, subject to actual form options.
 Submission deadline from today's founder-reported organizer announcement: October 11, 2026, 5:00 PM Pacific.
 
-## Project description (draft; update to actual outcomes)
+## Project description
 
 AIZOYA Engineering Recovery is an assistant-driven engineering harness that keeps
 the task contract, sessions, verification evidence and lessons in MongoDB Atlas.
@@ -14,25 +14,55 @@ decide whether the task actually succeeded. MongoDB is the execution state store
 the harness stops when it cannot read or safely persist its mission. A local
 interface exposes session history, recalled evidence, plan changes and results.
 
-Do not claim demonstrated Atlas recovery until the live round trip and fresh
-assistant conversation have been observed. No Agent Engine or model-provider API
-integration is currently implemented. No claim of general autonomy.
+The recovery demonstrated on October 11, 2026 is human-assisted: the operator
+retrieved the persisted failure evidence from Atlas and supplied it to Kiro as
+context in a new session. No autonomous model API loop or memory-disabled benchmark
+was demonstrated. No claim of general autonomy.
 
-## Observed evidence
+## Observed evidence — session-1 (historical)
 
 - New source written after hacking began; no prior application implementation reused.
 - First genuine candidate retained unchanged. Initial suite passed 9 checks.
 - Independent edge-case review added a valid JSON string containing a Unicode
-  line separator. Expanded suite failed that case: expected one record, observed
-  two invalid rows. The expanded suite passed 9/10 checks. This was an actual
-  execution result, not a deliberately broken demo candidate.
+  line separator (U+2028). Expanded suite failed that case: expected one record,
+  observed two invalid rows. The `unicode_inside_json_string` check failed because
+  `text.splitlines()` treats U+2028 as a line terminator. The expanded suite
+  passed 9/10 checks. This was an actual execution result, not a deliberately
+  broken demo candidate.
+- Original candidate SHA256:
+  `71fd7fc2417b96d06718c2fc7d80a1b55213ad1be9c3ecab9da5d0fc1f154a03`
 - Initial and expanded verifier reports are preserved under `evidence/`.
-- Local tests cover replay prevention, failed-evidence recall, session closure,
-  stale writes, uncertain write readback, credential isolation and escaped UI data.
-- Atlas sandbox membership, live writes, fresh-session recovery, accessible
-  deployed demo and video playback remain unverified.
+- Session-1 ended and its process was closed before session-2 began.
 
-## Live execution checklist
+## Observed evidence — session-2 (recovery, October 11, 2026)
+
+- Organizer Atlas sandbox connection confirmed. Mission: `transaction-import`.
+- The operator ran `private_run.py resume` in a new Python process. Atlas returned
+  the persisted session-1 failure evidence. The operator supplied that context to
+  Kiro — this is human-assisted recovery across a process boundary, not an
+  autonomous in-process model loop.
+- Kiro identified the root cause: `text.splitlines()` splits on U+2028, breaking
+  a valid JSON string across lines. Kiro replaced it with `text.split('\n')` in
+  `candidate.py`.
+- Repaired candidate SHA256:
+  `592b1b2854b360663fd708457d66a594ccfe3d808f28c22651f4b9913058f56a`
+- Session-2 ran one harness verification call. Expanded verifier: 10/10 independent
+  checks PASSED, 87 ms. Atlas readback reports VERIFIED at revision 6.
+- All 16 unit tests passed on macOS (Linux-only `RLIMIT_AS` limit excluded on macOS).
+- Local read-only viewer observed working at http://127.0.0.1:8765.
+- Code fixes committed as `6eb8669`.
+- Credential-pattern scan of Git history: zero matches (not a comprehensive guarantee).
+
+**What was and was not demonstrated:**
+- Atlas sandbox connection and persisted evidence read-back: confirmed.
+- Human-assisted recovery informed by retrieved evidence: confirmed.
+- 10/10 independent checks, Atlas VERIFIED at revision 6: confirmed.
+- Autonomous model API loop (no human relay): NOT demonstrated.
+- Memory-disabled model comparison benchmark: NOT demonstrated.
+- Model tool-call counts: not instrumented; unknown.
+- Model conversation freshness: not independently verified.
+
+## Live execution checklist (for future full demonstration)
 
 1. Organizer adds hello@aizoya.com to required sandbox; confirm assigned project,
    database, project-scoped user, allowed client IP and participant cost coverage.
@@ -41,7 +71,7 @@ integration is currently implemented. No claim of general autonomy.
 4. Init mission, resume `session1`, verify unchanged first candidate. Capture
    persisted/read-back real failure. Export sanitized result, excluding credentials.
 5. End `session1`, stop its process and close old coding-assistant conversation.
-6. Start a fresh Kiro/Codex conversation with source files and NEW Atlas recovery
+6. Start a fresh Kiro conversation with source files and NEW Atlas recovery
    context only. Disclose that context is retrieved from Atlas, not prior chat.
 7. Ask the assistant to inspect the actual failed constraint, choose its approach,
    persist its actual decision using the `plan` command, revise `candidate.py`,
@@ -71,16 +101,16 @@ exact checks passed/failed and unresolved limitations.
 Record only after the following states actually exist. If recovery is incomplete,
 replace the outcome line with the actual unresolved result.
 
-- 0–8 s: “AIZOYA Engineering Recovery helps a coding assistant resume from
-  verified failure evidence instead of repeating a blind attempt.” Show goal UI.
+- 0–8 s: "AIZOYA Engineering Recovery helps a coding assistant resume from
+  verified failure evidence instead of repeating a blind attempt." Show goal UI.
 - 8–20 s: Show original importer source and the actual failed Unicode JSONL check,
   including expected and observed values.
 - 20–30 s: Show first session ended, then a fresh process and assistant conversation
   restoring the goal and failure evidence from organizer Atlas.
 - 30–43 s: Show retrieved memory and the assistant's actual changed plan/source diff.
 - 43–54 s: Show independent verification outcome and the persisted result.
-- 54–60 s: “Atlas stores the state and evidence; independent checks decide success.
-  This is a bounded, assistant-driven prototype.”
+- 54–60 s: "Atlas stores the state and evidence; independent checks decide success.
+  This is a bounded, assistant-driven prototype."
 
 Keep connection windows, URI prompts, env files and credentials out of frame.
 Check both picture and audible narration in the exported video; verify duration
@@ -109,35 +139,38 @@ Finals use the same categories with equal weights. Long Horizon Engineering is
 confirmed as an official problem statement. Our accelerated small-task prototype
 does not establish billions-of-token or weeks-long endurance.
 
-Draft MongoDB-use answer: “The required organizer Atlas sandbox stores one
+Draft MongoDB-use answer: "The required organizer Atlas sandbox stores one
 versioned mission document with goal, contract, sessions, verification attempts
 and evidence-derived lessons. Revision checks and atomic document replacement
 prevent conflicting updates. A fresh session retrieves failed-check evidence to
-inform the next plan. Independent Python verification decides task success.”
-Use this answer only after live sandbox execution is verified.
+inform the next plan. Independent Python verification decides task success."
+Use this answer only after live sandbox execution is verified. Live sandbox
+execution was confirmed in session-2 on October 11, 2026.
 
 MongoDB feedback and partner feedback must reflect actual usage, not hypothetical
-experience. Currently sandbox access was missing from the hello account.
+experience.
 
 ## Submission checklist
 
-- Required organizer sandbox verified, and live integration demonstrated.
-- New original public repository, accessible code and honest event-dated history.
+- Required organizer sandbox: CONFIRMED. Live integration: DEMONSTRATED (session-2).
+- New original public repository, accessible code and honest event-dated history:
+  NOT YET PUBLISHED.
 - Secret scan before any publication; exclude virtual environment and private config.
 - License requirement: still unknown; check actual event resources before deciding.
-- Accessible demo link; local 127.0.0.1 URL is NOT an accessible public demo.
-- Accessible 1-minute video showing source and working behavior, audio/video verified.
-- Concise description revised to observed final outcome and limits.
+- Accessible demo link: NOT READY. Local 127.0.0.1 URL is NOT an accessible public demo.
+- Accessible 1-minute video showing source and working behavior: NOT RECORDED.
+- Concise description: revise to observed final outcome and limits before submitting.
 - Every actual team member included; currently only founder is known.
 - Complete the actual fields above with truthful final outcomes; resolve the
   mandatory partner-selection issue without inventing usage.
+- Modelence: NOT INTEGRATED.
 - Founder approves repository publication, any deployment and final submission
   after reviewing concrete outputs. No final submission has occurred.
 - Submit via Cerebral Valley Submit Project before 5 PM; verify receipt.
 
 ## Remaining organizer questions
 
-Assigned sandbox membership and $0 coverage; actual Long Horizon problem/rubric;
+Assigned sandbox membership cost coverage details; actual Long Horizon problem/rubric;
 specific license; exact additional form fields; demo hosting requirement;
 Modelence $50 announcement versus resource-guide conditional $100 offer;
 whether Modelence hosting connects to assigned organizer cluster; Raindrop prize
