@@ -52,7 +52,8 @@ def cases():
 RUNNER = '''import json, sys
 try:
  import resource
- resource.setrlimit(resource.RLIMIT_AS, (134217728,134217728))
+ if sys.platform == "linux":
+  resource.setrlimit(resource.RLIMIT_AS, (134217728,134217728))
  resource.setrlimit(resource.RLIMIT_CPU, (2,2))
  resource.setrlimit(resource.RLIMIT_FSIZE, (1048576,1048576))
 except ImportError:

@@ -8,7 +8,7 @@ def import_transactions(text):
     errors=[]
     seen=set()
     duplicates=0
-    for number,line in enumerate(text.splitlines(),1):
+    for number,line in enumerate(text.split('\n'),1):
         if not line.strip():
             continue
         try:
