@@ -59,6 +59,10 @@ credential file. Re-enter it for each process. This wrapper never saves secrets.
 To explicitly close a session: `private_run.py end --mission importer --session SESSION_ID`.
 Then exit the old assistant conversation and start a new conversation. Merely
 starting another Python process does not prove a fresh model conversation.
+Persist the assistant's actual decision with `private_run.py plan --mission importer
+--session SESSION_ID --decision "ACTUAL PLAN"`. Decisions reference the evidence
+retrieved for that session. The UI reports measured verification calls/time and
+repeated failures; model session freshness and model tool calls are not instrumented.
 
 ## Real demonstration requirements
 
@@ -78,7 +82,7 @@ Codex's first candidate was actually run: initial 9 checks passed, then an expan
 JSONL edge-case check found a real Unicode line separator defect; 9/10 checks pass.
 The candidate remains unchanged for recovery. This is observed local evidence,
 not evidence of an Atlas-backed run. Accessible public demo NOT READY.
-Actual submission form fields NOT VERIFIED (cloud browser signed out).
+Actual submission form fields VERIFIED in REVIEW_PACKET.md; no submission made.
 License requirement NOT VERIFIED; no license selection or repository publication
 has occurred. Sponsor offers/coverage need event-specific confirmation. No spend.
 

@@ -76,6 +76,39 @@ def end_session(doc, session):
     updated['revision']+=1
     return updated
 
+def record_plan(doc, session, decision):
+    if not isinstance(decision,str) or not decision.strip() or len(decision)>2000:
+        raise ValueError('bounded_decision_required')
+    updated=copy.deepcopy(doc)
+    record=next((s for s in updated['sessions'] if s['id']==session),None)
+    if record is None or 'ended_at' in record:
+        raise ValueError('open_session_required')
+    entry={'decision':decision.strip(),'recorded_at':now(),
+           'source_attempts':[e['attempt_id'] for e in record['context']['retrieved_evidence']]}
+    prior=record.get('decisions',[])
+    if prior and prior[-1]['decision']==entry['decision']:
+        return doc
+    if len(prior)>=10:
+        raise ValueError('decision_limit')
+    record.setdefault('decisions',[]).append(entry)
+    updated['revision']+=1
+    return updated
+
+def metrics(doc):
+    counts={}
+    for attempt in doc['attempts']:
+        for check in attempt['result']['checks']:
+            if not check['passed']:
+                counts[check['name']]=counts.get(check['name'],0)+1
+    return {'attempts':len(doc['attempts']),'sessions':len(doc['sessions']),
+            'task_verified':doc['status']=='VERIFIED',
+            'failed_attempts':sum(not a['result']['passed'] for a in doc['attempts']),
+            'repeated_failed_checks':sum(max(0,n-1) for n in counts.values()),
+            'verifier_elapsed_ms':sum(a['result']['elapsed_ms'] for a in doc['attempts']),
+            'harness_tool_calls':sum(a['harness_tool_calls'] for a in doc['attempts']),
+            'model_tool_calls':None,
+            'model_session_freshness':'not instrumented'}
+
 def add_attempt(doc, session, result):
     if session not in [s['id'] for s in doc['sessions']]:
         raise ValueError('unknown_session')
@@ -133,7 +166,8 @@ class AtlasStore:
 
 def render(doc):
     # JSON stays in a script text node; escape characters that could end the node.
-    data=json.dumps(doc).replace('<','\\u003c').replace('>','\\u003e').replace('&','\\u0026')
+    shown=copy.deepcopy(doc);shown['metrics']=metrics(doc)
+    data=json.dumps(shown).replace('<','\\u003c').replace('>','\\u003e').replace('&','\\u0026')
     return '''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AIZOYA Engineering Recovery</title><style>
 body{margin:0;background:#08172b;color:#edf4ff;font:18px system-ui}main{max-width:1050px;margin:auto;padding:28px}
@@ -142,23 +176,26 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;font:15px ui-monospace}p{line-he
 </style><main><small>AIZOYA • Original hackathon prototype</small><h1>Engineering that remembers</h1>
 <p id="goal"></p><p class="badge" id="status"></p><small>Live Atlas readback • Assistant-driven • Fictional task data • Local read-only interface</small>
 <section><h2>Sessions & plan changes</h2><div id="sessions"></div></section>
+<section><h2>Measured progress</h2><pre id="metrics"></pre></section>
 <section><h2>Retrieved memory & evidence</h2><pre id="memory"></pre></section>
 <section><h2>Independent verification</h2><div id="attempts"></div></section>
 <p>No automatic publication, deployment or external submission.</p></main><script id="state" type="application/json">'''+data+'''</script><script>
 const d=JSON.parse(document.getElementById('state').textContent);
 document.getElementById('goal').textContent=d.goal;
 document.getElementById('status').textContent=d.status+' • Revision '+d.revision;
-for(const s of d.sessions){const p=document.createElement('p');p.textContent=s.id+' • '+s.started_at+' • '+s.context.plan;document.getElementById('sessions').append(p)}
+for(const s of d.sessions){const p=document.createElement('p');p.textContent=s.id+' • '+s.started_at+' • '+(s.ended_at?'ENDED':'OPEN')+' • '+s.context.plan+' • Decisions: '+JSON.stringify(s.decisions??[]);document.getElementById('sessions').append(p)}
+document.getElementById('metrics').textContent=JSON.stringify(d.metrics,null,2);
 document.getElementById('memory').textContent=JSON.stringify(d.sessions.at(-1)?.context??{},null,2);
 for(const a of d.attempts){const p=document.createElement('pre');p.textContent=JSON.stringify({session:a.session_id,hash:a.result.candidate_hash,passed:a.result.passed,elapsed_ms:a.result.elapsed_ms,harness_tool_calls:a.harness_tool_calls,checks:a.result.checks,failure:a.result.failure},null,2);document.getElementById('attempts').append(p)}
 </script></html>'''
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('command',choices=['init','resume','end','verify','serve','status'])
+    parser.add_argument('command',choices=['init','resume','plan','end','verify','serve','status'])
     parser.add_argument('--mission',required=True)
     parser.add_argument('--session')
     parser.add_argument('--candidate')
+    parser.add_argument('--decision')
     parser.add_argument('--memory-disabled',action='store_true')
     args=parser.parse_args()
     store=AtlasStore()
@@ -173,6 +210,13 @@ def main():
             doc=store.save(doc,updated)
         context=next(s['context'] for s in doc['sessions'] if s['id']==sid)
         print(json.dumps({'session_id':sid,'context':context},indent=2))
+    elif args.command=='plan':
+        if not args.session or not args.decision:
+            raise ValueError('session_and_decision_required')
+        updated=record_plan(doc,args.session,args.decision)
+        if updated!=doc:
+            doc=store.save(doc,updated)
+        print(json.dumps({'session_id':args.session,'decision_persisted':True}))
     elif args.command=='end':
         if not args.session:
             raise ValueError('session_required')

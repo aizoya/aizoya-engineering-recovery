@@ -44,7 +44,8 @@ integration is currently implemented. No claim of general autonomy.
 6. Start a fresh Kiro/Codex conversation with source files and NEW Atlas recovery
    context only. Disclose that context is retrieved from Atlas, not prior chat.
 7. Ask the assistant to inspect the actual failed constraint, choose its approach,
-   revise `candidate.py`, and run the unchanged expanded verifier.
+   persist its actual decision using the `plan` command, revise `candidate.py`,
+   and run the unchanged expanded verifier.
 8. Save/read back outcome. If it still fails, retain that result and continue;
    never state it passed without evidence.
 9. Replay same verification receipt: confirm no second attempt or lesson is added.
@@ -85,7 +86,40 @@ Keep connection windows, URI prompts, env files and credentials out of frame.
 Check both picture and audible narration in the exported video; verify duration
 at most 60 seconds and playback from the actual shared link without creator login.
 
-## Submission checklist — announcement baseline, actual form not yet read
+## Actual submission form — inspected October 11, about 11 AM Pacific
+
+Verified URL: https://cerebralvalley.ai/e/mongodb-sftw-hackathon/hackathon/submit
+
+Required fields: Team Name; Project Description; Public GitHub Repository;
+Demo Video; partner technologies (AWS, Elevenlabs, Raindrop, Modelence, Cursor);
+Raindrop RSI Prize (Yes/No); description of MongoDB use; MongoDB product feedback;
+partner-product feedback. Franklyn Rosario / aizoya is already listed as a member.
+The displayed form has no separate demo URL or track dropdown. The participant
+guide still asks for an accessible demo link, so clarify whether video suffices.
+Partner technologies is mandatory and has no visible None option. Do not select
+an unused tool to satisfy validation. Kiro may count as AWS only if actually used
+in this project and the organizer confirms that interpretation.
+
+The guide states public repositories but does not specify a license. No license
+requirement appeared in the displayed form. This is an observation of these
+resources, not a guarantee that no requirement exists elsewhere.
+
+Round one: impact 20%, demo 35%, creativity 15%, implementation difficulty 30%.
+Finals use the same categories with equal weights. Long Horizon Engineering is
+confirmed as an official problem statement. Our accelerated small-task prototype
+does not establish billions-of-token or weeks-long endurance.
+
+Draft MongoDB-use answer: “The required organizer Atlas sandbox stores one
+versioned mission document with goal, contract, sessions, verification attempts
+and evidence-derived lessons. Revision checks and atomic document replacement
+prevent conflicting updates. A fresh session retrieves failed-check evidence to
+inform the next plan. Independent Python verification decides task success.”
+Use this answer only after live sandbox execution is verified.
+
+MongoDB feedback and partner feedback must reflect actual usage, not hypothetical
+experience. Currently sandbox access was missing from the hello account.
+
+## Submission checklist
 
 - Required organizer sandbox verified, and live integration demonstrated.
 - New original public repository, accessible code and honest event-dated history.
@@ -95,7 +129,8 @@ at most 60 seconds and playback from the actual shared link without creator logi
 - Accessible 1-minute video showing source and working behavior, audio/video verified.
 - Concise description revised to observed final outcome and limits.
 - Every actual team member included; currently only founder is known.
-- Read every additional actual form question and supply truthful answers.
+- Complete the actual fields above with truthful final outcomes; resolve the
+  mandatory partner-selection issue without inventing usage.
 - Founder approves repository publication, any deployment and final submission
   after reviewing concrete outputs. No final submission has occurred.
 - Submit via Cerebral Valley Submit Project before 5 PM; verify receipt.
@@ -107,6 +142,14 @@ specific license; exact additional form fields; demo hosting requirement;
 Modelence $50 announcement versus resource-guide conditional $100 offer;
 whether Modelence hosting connects to assigned organizer cluster; Raindrop prize
 criteria and zero-cost terms. Do not add sponsor integrations before core recovery.
+
+Builder guide freshly read through the founder's connected Drive: still advertises
+free Modelence sandboxes/deployments and a conditional $100 credit for deploying
+before the final demo. This conflicts with the founder-reported $50 announcement;
+no credit has been claimed or consumed. It lists Kiro under AWS, but sandbox
+compatibility and applicable cost coverage are not established by that listing.
+Raindrop is described as monitoring; event-specific integration terms and prize
+criteria are absent. No license instruction was found in that guide.
 
 Milestones: end-to-end 3:30 PM; freeze 4 PM; recording/package 4:30 PM;
 approval and submission before 5 PM. Preserve existing AWS S04 work and its

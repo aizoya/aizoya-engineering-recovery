@@ -3,7 +3,7 @@ import sys
 import unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from harness import new_mission,add_session,add_attempt,recovery_context,render,end_session,AtlasStore
+from harness import new_mission,add_session,add_attempt,recovery_context,render,end_session,AtlasStore,record_plan,metrics
 from verifier import validate_source,verify
 
 def failure():
@@ -99,5 +99,25 @@ class HarnessChecks(unittest.TestCase):
     def test_ui_escapes_script_termination(self):
         doc=new_mission('test');doc['goal']='</script><img src=x onerror=alert(1)>'
         self.assertNotIn(doc['goal'],render(doc))
+
+    def test_decision_provenance_and_replay(self):
+        doc=add_session(new_mission('test'),'session1')
+        doc,_=add_attempt(doc,'session1',failure())
+        doc=add_session(end_session(doc,'session1'),'session2')
+        updated=record_plan(doc,'session2','Inspect rounding against exact cents evidence.')
+        self.assertEqual(updated,record_plan(updated,'session2','Inspect rounding against exact cents evidence.'))
+        self.assertEqual(updated['sessions'][-1]['decisions'][0]['source_attempts'],[doc['attempts'][0]['id']])
+        with self.assertRaises(ValueError):record_plan(doc,'session1','closed')
+
+    def test_metrics_do_not_claim_unobserved_model_recovery(self):
+        doc=add_session(new_mission('test'),'session1')
+        doc,_=add_attempt(doc,'session1',failure())
+        changed=failure();changed['candidate_hash']='d'*64
+        doc,_=add_attempt(doc,'session1',changed)
+        summary=metrics(doc)
+        self.assertEqual(summary['repeated_failed_checks'],1)
+        self.assertEqual(summary['harness_tool_calls'],2)
+        self.assertIsNone(summary['model_tool_calls'])
+        self.assertEqual(summary['model_session_freshness'],'not instrumented')
 
 if __name__=='__main__':unittest.main()
