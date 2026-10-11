@@ -1,0 +1,1038 @@
+{
+  "candidate_hash": "71fd7fc2417b96d06718c2fc7d80a1b55213ad1be9c3ecab9da5d0fc1f154a03",
+  "passed": true,
+  "checks": [
+    {
+      "name": "empty",
+      "passed": true,
+      "expected": {
+        "records": [],
+        "errors": [],
+        "duplicates": 0
+      },
+      "observed": {
+        "records": [],
+        "errors": [],
+        "duplicates": 0
+      }
+    },
+    {
+      "name": "exact_cents",
+      "passed": true,
+      "expected": {
+        "records": [
+          {
+            "id": "a",
+            "amount_cents": 29
+          },
+          {
+            "id": "b",
+            "amount_cents": 99999999
+          }
+        ],
+        "errors": [],
+        "duplicates": 0
+      },
+      "observed": {
+        "records": [
+          {
+            "id": "a",
+            "amount_cents": 29
+          },
+          {
+            "id": "b",
+            "amount_cents": 99999999
+          }
+        ],
+        "errors": [],
+        "duplicates": 0
+      }
+    },
+    {
+      "name": "duplicate_normalization",
+      "passed": true,
+      "expected": {
+        "records": [
+          {
+            "id": "a",
+            "amount_cents": 100
+          }
+        ],
+        "errors": [],
+        "duplicates": 1
+      },
+      "observed": {
+        "records": [
+          {
+            "id": "a",
+            "amount_cents": 100
+          }
+        ],
+        "errors": [],
+        "duplicates": 1
+      }
+    },
+    {
+      "name": "invalid_duplicate",
+      "passed": true,
+      "expected": {
+        "records": [
+          {
+            "id": "a",
+            "amount_cents": 100
+          }
+        ],
+        "errors": [
+          2
+        ],
+        "duplicates": 0
+      },
+      "observed": {
+        "records": [
+          {
+            "id": "a",
+            "amount_cents": 100
+          }
+        ],
+        "errors": [
+          2
+        ],
+        "duplicates": 0
+      }
+    },
+    {
+      "name": "malformed_and_blank",
+      "passed": true,
+      "expected": {
+        "records": [
+          {
+            "id": "b",
+            "amount_cents": 250
+          }
+        ],
+        "errors": [
+          2
+        ],
+        "duplicates": 0
+      },
+      "observed": {
+        "records": [
+          {
+            "id": "b",
+            "amount_cents": 250
+          }
+        ],
+        "errors": [
+          2
+        ],
+        "duplicates": 0
+      }
+    },
+    {
+      "name": "invalid_amounts",
+      "passed": true,
+      "expected": {
+        "records": [],
+        "errors": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "duplicates": 0
+      },
+      "observed": {
+        "records": [],
+        "errors": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "duplicates": 0
+      }
+    },
+    {
+      "name": "invalid_records",
+      "passed": true,
+      "expected": {
+        "records": [],
+        "errors": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "duplicates": 0
+      },
+      "observed": {
+        "records": [],
+        "errors": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "duplicates": 0
+      }
+    },
+    {
+      "name": "limit",
+      "passed": true,
+      "expected": {
+        "records": [
+          {
+            "id": "top",
+            "amount_cents": 100000000
+          }
+        ],
+        "errors": [],
+        "duplicates": 0
+      },
+      "observed": {
+        "records": [
+          {
+            "id": "top",
+            "amount_cents": 100000000
+          }
+        ],
+        "errors": [],
+        "duplicates": 0
+      }
+    },
+    {
+      "name": "generated_exact_money",
+      "passed": true,
+      "expected": {
+        "records": [
+          {
+            "id": "order-0",
+            "amount_cents": 66015200
+          },
+          {
+            "id": "order-1",
+            "amount_cents": 46521604
+          },
+          {
+            "id": "order-2",
+            "amount_cents": 66538950
+          },
+          {
+            "id": "order-3",
+            "amount_cents": 45366543
+          },
+          {
+            "id": "order-4",
+            "amount_cents": 37437791
+          },
+          {
+            "id": "order-5",
+            "amount_cents": 7361734
+          },
+          {
+            "id": "order-6",
+            "amount_cents": 5369387
+          },
+          {
+            "id": "order-7",
+            "amount_cents": 48069781
+          },
+          {
+            "id": "order-8",
+            "amount_cents": 64416012
+          },
+          {
+            "id": "order-9",
+            "amount_cents": 4990737
+          },
+          {
+            "id": "order-10",
+            "amount_cents": 92532951
+          },
+          {
+            "id": "order-11",
+            "amount_cents": 1965298
+          },
+          {
+            "id": "order-12",
+            "amount_cents": 94676679
+          },
+          {
+            "id": "order-13",
+            "amount_cents": 90098979
+          },
+          {
+            "id": "order-14",
+            "amount_cents": 46343347
+          },
+          {
+            "id": "order-15",
+            "amount_cents": 29148428
+          },
+          {
+            "id": "order-16",
+            "amount_cents": 88422088
+          },
+          {
+            "id": "order-17",
+            "amount_cents": 81183562
+          },
+          {
+            "id": "order-18",
+            "amount_cents": 71224126
+          },
+          {
+            "id": "order-19",
+            "amount_cents": 17206479
+          },
+          {
+            "id": "order-20",
+            "amount_cents": 63360717
+          },
+          {
+            "id": "order-21",
+            "amount_cents": 3532725
+          },
+          {
+            "id": "order-22",
+            "amount_cents": 487806
+          },
+          {
+            "id": "order-23",
+            "amount_cents": 30897106
+          },
+          {
+            "id": "order-24",
+            "amount_cents": 32489201
+          },
+          {
+            "id": "order-25",
+            "amount_cents": 20189838
+          },
+          {
+            "id": "order-26",
+            "amount_cents": 26168198
+          },
+          {
+            "id": "order-27",
+            "amount_cents": 49763687
+          },
+          {
+            "id": "order-28",
+            "amount_cents": 95585803
+          },
+          {
+            "id": "order-29",
+            "amount_cents": 61023979
+          },
+          {
+            "id": "order-30",
+            "amount_cents": 81870436
+          },
+          {
+            "id": "order-31",
+            "amount_cents": 39278765
+          },
+          {
+            "id": "order-32",
+            "amount_cents": 2170643
+          },
+          {
+            "id": "order-33",
+            "amount_cents": 18863695
+          },
+          {
+            "id": "order-34",
+            "amount_cents": 34557649
+          },
+          {
+            "id": "order-35",
+            "amount_cents": 56086529
+          },
+          {
+            "id": "order-36",
+            "amount_cents": 92976271
+          },
+          {
+            "id": "order-37",
+            "amount_cents": 47033628
+          },
+          {
+            "id": "order-38",
+            "amount_cents": 98425900
+          },
+          {
+            "id": "order-39",
+            "amount_cents": 27084419
+          },
+          {
+            "id": "order-40",
+            "amount_cents": 40859781
+          },
+          {
+            "id": "order-41",
+            "amount_cents": 29759304
+          },
+          {
+            "id": "order-42",
+            "amount_cents": 47820230
+          },
+          {
+            "id": "order-43",
+            "amount_cents": 68316813
+          },
+          {
+            "id": "order-44",
+            "amount_cents": 14426534
+          },
+          {
+            "id": "order-45",
+            "amount_cents": 92362213
+          },
+          {
+            "id": "order-46",
+            "amount_cents": 21820656
+          },
+          {
+            "id": "order-47",
+            "amount_cents": 92506614
+          },
+          {
+            "id": "order-48",
+            "amount_cents": 60497723
+          },
+          {
+            "id": "order-49",
+            "amount_cents": 9207010
+          },
+          {
+            "id": "order-50",
+            "amount_cents": 63523259
+          },
+          {
+            "id": "order-51",
+            "amount_cents": 45903829
+          },
+          {
+            "id": "order-52",
+            "amount_cents": 45780074
+          },
+          {
+            "id": "order-53",
+            "amount_cents": 49006602
+          },
+          {
+            "id": "order-54",
+            "amount_cents": 38719966
+          },
+          {
+            "id": "order-55",
+            "amount_cents": 42986873
+          },
+          {
+            "id": "order-56",
+            "amount_cents": 62180891
+          },
+          {
+            "id": "order-57",
+            "amount_cents": 29672604
+          },
+          {
+            "id": "order-58",
+            "amount_cents": 96963492
+          },
+          {
+            "id": "order-59",
+            "amount_cents": 29369312
+          },
+          {
+            "id": "order-60",
+            "amount_cents": 6397650
+          },
+          {
+            "id": "order-61",
+            "amount_cents": 15759450
+          },
+          {
+            "id": "order-62",
+            "amount_cents": 72537169
+          },
+          {
+            "id": "order-63",
+            "amount_cents": 30892374
+          },
+          {
+            "id": "order-64",
+            "amount_cents": 4179297
+          },
+          {
+            "id": "order-65",
+            "amount_cents": 83329102
+          },
+          {
+            "id": "order-66",
+            "amount_cents": 67261767
+          },
+          {
+            "id": "order-67",
+            "amount_cents": 32836006
+          },
+          {
+            "id": "order-68",
+            "amount_cents": 54009620
+          },
+          {
+            "id": "order-69",
+            "amount_cents": 24059371
+          },
+          {
+            "id": "order-70",
+            "amount_cents": 47392630
+          },
+          {
+            "id": "order-71",
+            "amount_cents": 40532891
+          },
+          {
+            "id": "order-72",
+            "amount_cents": 38133615
+          },
+          {
+            "id": "order-73",
+            "amount_cents": 35559159
+          },
+          {
+            "id": "order-74",
+            "amount_cents": 75167025
+          },
+          {
+            "id": "order-75",
+            "amount_cents": 43428436
+          },
+          {
+            "id": "order-76",
+            "amount_cents": 29036539
+          },
+          {
+            "id": "order-77",
+            "amount_cents": 86117199
+          },
+          {
+            "id": "order-78",
+            "amount_cents": 53503948
+          },
+          {
+            "id": "order-79",
+            "amount_cents": 49228442
+          },
+          {
+            "id": "order-80",
+            "amount_cents": 56358454
+          },
+          {
+            "id": "order-81",
+            "amount_cents": 79350135
+          },
+          {
+            "id": "order-82",
+            "amount_cents": 97616441
+          },
+          {
+            "id": "order-83",
+            "amount_cents": 35191909
+          },
+          {
+            "id": "order-84",
+            "amount_cents": 13621168
+          },
+          {
+            "id": "order-85",
+            "amount_cents": 9853575
+          },
+          {
+            "id": "order-86",
+            "amount_cents": 83185798
+          },
+          {
+            "id": "order-87",
+            "amount_cents": 46615448
+          },
+          {
+            "id": "order-88",
+            "amount_cents": 64141137
+          },
+          {
+            "id": "order-89",
+            "amount_cents": 9982995
+          },
+          {
+            "id": "order-90",
+            "amount_cents": 28052853
+          },
+          {
+            "id": "order-91",
+            "amount_cents": 82443103
+          },
+          {
+            "id": "order-92",
+            "amount_cents": 42175882
+          },
+          {
+            "id": "order-93",
+            "amount_cents": 69987613
+          },
+          {
+            "id": "order-94",
+            "amount_cents": 69117900
+          },
+          {
+            "id": "order-95",
+            "amount_cents": 85047790
+          },
+          {
+            "id": "order-96",
+            "amount_cents": 99087125
+          },
+          {
+            "id": "order-97",
+            "amount_cents": 96834141
+          },
+          {
+            "id": "order-98",
+            "amount_cents": 75326882
+          },
+          {
+            "id": "order-99",
+            "amount_cents": 36312928
+          }
+        ],
+        "errors": [],
+        "duplicates": 0
+      },
+      "observed": {
+        "records": [
+          {
+            "id": "order-0",
+            "amount_cents": 66015200
+          },
+          {
+            "id": "order-1",
+            "amount_cents": 46521604
+          },
+          {
+            "id": "order-2",
+            "amount_cents": 66538950
+          },
+          {
+            "id": "order-3",
+            "amount_cents": 45366543
+          },
+          {
+            "id": "order-4",
+            "amount_cents": 37437791
+          },
+          {
+            "id": "order-5",
+            "amount_cents": 7361734
+          },
+          {
+            "id": "order-6",
+            "amount_cents": 5369387
+          },
+          {
+            "id": "order-7",
+            "amount_cents": 48069781
+          },
+          {
+            "id": "order-8",
+            "amount_cents": 64416012
+          },
+          {
+            "id": "order-9",
+            "amount_cents": 4990737
+          },
+          {
+            "id": "order-10",
+            "amount_cents": 92532951
+          },
+          {
+            "id": "order-11",
+            "amount_cents": 1965298
+          },
+          {
+            "id": "order-12",
+            "amount_cents": 94676679
+          },
+          {
+            "id": "order-13",
+            "amount_cents": 90098979
+          },
+          {
+            "id": "order-14",
+            "amount_cents": 46343347
+          },
+          {
+            "id": "order-15",
+            "amount_cents": 29148428
+          },
+          {
+            "id": "order-16",
+            "amount_cents": 88422088
+          },
+          {
+            "id": "order-17",
+            "amount_cents": 81183562
+          },
+          {
+            "id": "order-18",
+            "amount_cents": 71224126
+          },
+          {
+            "id": "order-19",
+            "amount_cents": 17206479
+          },
+          {
+            "id": "order-20",
+            "amount_cents": 63360717
+          },
+          {
+            "id": "order-21",
+            "amount_cents": 3532725
+          },
+          {
+            "id": "order-22",
+            "amount_cents": 487806
+          },
+          {
+            "id": "order-23",
+            "amount_cents": 30897106
+          },
+          {
+            "id": "order-24",
+            "amount_cents": 32489201
+          },
+          {
+            "id": "order-25",
+            "amount_cents": 20189838
+          },
+          {
+            "id": "order-26",
+            "amount_cents": 26168198
+          },
+          {
+            "id": "order-27",
+            "amount_cents": 49763687
+          },
+          {
+            "id": "order-28",
+            "amount_cents": 95585803
+          },
+          {
+            "id": "order-29",
+            "amount_cents": 61023979
+          },
+          {
+            "id": "order-30",
+            "amount_cents": 81870436
+          },
+          {
+            "id": "order-31",
+            "amount_cents": 39278765
+          },
+          {
+            "id": "order-32",
+            "amount_cents": 2170643
+          },
+          {
+            "id": "order-33",
+            "amount_cents": 18863695
+          },
+          {
+            "id": "order-34",
+            "amount_cents": 34557649
+          },
+          {
+            "id": "order-35",
+            "amount_cents": 56086529
+          },
+          {
+            "id": "order-36",
+            "amount_cents": 92976271
+          },
+          {
+            "id": "order-37",
+            "amount_cents": 47033628
+          },
+          {
+            "id": "order-38",
+            "amount_cents": 98425900
+          },
+          {
+            "id": "order-39",
+            "amount_cents": 27084419
+          },
+          {
+            "id": "order-40",
+            "amount_cents": 40859781
+          },
+          {
+            "id": "order-41",
+            "amount_cents": 29759304
+          },
+          {
+            "id": "order-42",
+            "amount_cents": 47820230
+          },
+          {
+            "id": "order-43",
+            "amount_cents": 68316813
+          },
+          {
+            "id": "order-44",
+            "amount_cents": 14426534
+          },
+          {
+            "id": "order-45",
+            "amount_cents": 92362213
+          },
+          {
+            "id": "order-46",
+            "amount_cents": 21820656
+          },
+          {
+            "id": "order-47",
+            "amount_cents": 92506614
+          },
+          {
+            "id": "order-48",
+            "amount_cents": 60497723
+          },
+          {
+            "id": "order-49",
+            "amount_cents": 9207010
+          },
+          {
+            "id": "order-50",
+            "amount_cents": 63523259
+          },
+          {
+            "id": "order-51",
+            "amount_cents": 45903829
+          },
+          {
+            "id": "order-52",
+            "amount_cents": 45780074
+          },
+          {
+            "id": "order-53",
+            "amount_cents": 49006602
+          },
+          {
+            "id": "order-54",
+            "amount_cents": 38719966
+          },
+          {
+            "id": "order-55",
+            "amount_cents": 42986873
+          },
+          {
+            "id": "order-56",
+            "amount_cents": 62180891
+          },
+          {
+            "id": "order-57",
+            "amount_cents": 29672604
+          },
+          {
+            "id": "order-58",
+            "amount_cents": 96963492
+          },
+          {
+            "id": "order-59",
+            "amount_cents": 29369312
+          },
+          {
+            "id": "order-60",
+            "amount_cents": 6397650
+          },
+          {
+            "id": "order-61",
+            "amount_cents": 15759450
+          },
+          {
+            "id": "order-62",
+            "amount_cents": 72537169
+          },
+          {
+            "id": "order-63",
+            "amount_cents": 30892374
+          },
+          {
+            "id": "order-64",
+            "amount_cents": 4179297
+          },
+          {
+            "id": "order-65",
+            "amount_cents": 83329102
+          },
+          {
+            "id": "order-66",
+            "amount_cents": 67261767
+          },
+          {
+            "id": "order-67",
+            "amount_cents": 32836006
+          },
+          {
+            "id": "order-68",
+            "amount_cents": 54009620
+          },
+          {
+            "id": "order-69",
+            "amount_cents": 24059371
+          },
+          {
+            "id": "order-70",
+            "amount_cents": 47392630
+          },
+          {
+            "id": "order-71",
+            "amount_cents": 40532891
+          },
+          {
+            "id": "order-72",
+            "amount_cents": 38133615
+          },
+          {
+            "id": "order-73",
+            "amount_cents": 35559159
+          },
+          {
+            "id": "order-74",
+            "amount_cents": 75167025
+          },
+          {
+            "id": "order-75",
+            "amount_cents": 43428436
+          },
+          {
+            "id": "order-76",
+            "amount_cents": 29036539
+          },
+          {
+            "id": "order-77",
+            "amount_cents": 86117199
+          },
+          {
+            "id": "order-78",
+            "amount_cents": 53503948
+          },
+          {
+            "id": "order-79",
+            "amount_cents": 49228442
+          },
+          {
+            "id": "order-80",
+            "amount_cents": 56358454
+          },
+          {
+            "id": "order-81",
+            "amount_cents": 79350135
+          },
+          {
+            "id": "order-82",
+            "amount_cents": 97616441
+          },
+          {
+            "id": "order-83",
+            "amount_cents": 35191909
+          },
+          {
+            "id": "order-84",
+            "amount_cents": 13621168
+          },
+          {
+            "id": "order-85",
+            "amount_cents": 9853575
+          },
+          {
+            "id": "order-86",
+            "amount_cents": 83185798
+          },
+          {
+            "id": "order-87",
+            "amount_cents": 46615448
+          },
+          {
+            "id": "order-88",
+            "amount_cents": 64141137
+          },
+          {
+            "id": "order-89",
+            "amount_cents": 9982995
+          },
+          {
+            "id": "order-90",
+            "amount_cents": 28052853
+          },
+          {
+            "id": "order-91",
+            "amount_cents": 82443103
+          },
+          {
+            "id": "order-92",
+            "amount_cents": 42175882
+          },
+          {
+            "id": "order-93",
+            "amount_cents": 69987613
+          },
+          {
+            "id": "order-94",
+            "amount_cents": 69117900
+          },
+          {
+            "id": "order-95",
+            "amount_cents": 85047790
+          },
+          {
+            "id": "order-96",
+            "amount_cents": 99087125
+          },
+          {
+            "id": "order-97",
+            "amount_cents": 96834141
+          },
+          {
+            "id": "order-98",
+            "amount_cents": 75326882
+          },
+          {
+            "id": "order-99",
+            "amount_cents": 36312928
+          }
+        ],
+        "errors": [],
+        "duplicates": 0
+      }
+    }
+  ],
+  "failure": null,
+  "elapsed_ms": 37
+}
