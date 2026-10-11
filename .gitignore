@@ -4,3 +4,9 @@ __pycache__/
 *.pem
 *.key
 artifacts/
+
+# Modelence presenter
+presenter/node_modules/
+presenter/.modelence*.env*
+presenter/dist/
+presenter/build/
