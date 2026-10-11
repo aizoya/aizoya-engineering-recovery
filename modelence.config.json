@@ -1,0 +1,31 @@
+{
+  "$schema": "https://cloud.modelence.com/schema/modelence.config.json?version=1",
+  "resources": {
+    "presenter": {
+      "type": "service",
+      "image": "node-22-slim",
+      "root": "presenter",
+      "build": {
+        "commands": [
+          "npm ci",
+          "npm run build"
+        ]
+      },
+      "start": {
+        "commands": [
+          "npm start"
+        ]
+      }
+    }
+  },
+  "env": {
+    "MONGODB_URI": {
+      "type": "secret",
+      "required": true
+    },
+    "MONGODB_DATABASE": {
+      "type": "secret",
+      "required": false
+    }
+  }
+}
